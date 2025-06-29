@@ -29,16 +29,22 @@ class EventHandler(BaseHTTPRequestHandler):
         """Maneja eventos POST enviados por el dispositivo Hikvision"""
         try:
             content_length = int(self.headers.get('Content-Length', 0))
+            content_type = self.headers.get('Content-Type', '')
+            
             if content_length > 0:
                 post_data = self.rfile.read(content_length)
                 
-                # Parsear datos del evento
-                try:
-                    event_data = json.loads(post_data.decode('utf-8'))
-                    self.app.process_access_event(event_data)
-                except json.JSONDecodeError:
-                    # Puede ser formato multipart con imagen
-                    self.app.process_multipart_event(post_data)
+                # Verificar si es multipart
+                if 'multipart' in content_type.lower():
+                    self.app.process_multipart_event(post_data, content_type)
+                else:
+                    # Intentar procesar como JSON puro
+                    try:
+                        event_data = json.loads(post_data.decode('utf-8'))
+                        self.app.process_access_event(event_data)
+                    except (json.JSONDecodeError, UnicodeDecodeError):
+                        # Si falla, tratar como multipart sin header
+                        self.app.process_multipart_event(post_data, content_type)
             
             # Responder OK al dispositivo
             self.send_response(200)
@@ -47,7 +53,7 @@ class EventHandler(BaseHTTPRequestHandler):
             self.wfile.write(b'{"status": "OK"}')
             
         except Exception as e:
-            self.app.log_message(f"❌ Error procesando evento: {e}")
+            self.app.log_event(f"❌ Error en servidor HTTP: {e}")
             self.send_response(500)
             self.end_headers()
     
@@ -158,6 +164,7 @@ class HikvisionUserCreator:
         self.stop_server_btn.pack(side=tk.LEFT, padx=(0, 5))
 
         ttk.Button(event_control_frame, text="Configurar Eventos", command=self.configure_event_notification).pack(side=tk.LEFT, padx=(10, 0))
+        ttk.Button(event_control_frame, text="Config. Manual", command=self.show_manual_config).pack(side=tk.LEFT, padx=(5, 0))
 
         self.server_status_label = ttk.Label(event_control_frame, text="● Servidor: Detenido", foreground="red")
         self.server_status_label.pack(side=tk.RIGHT)
@@ -695,8 +702,12 @@ class HikvisionUserCreator:
     def process_access_event(self, event_data):
         """Procesa eventos de acceso recibidos del dispositivo"""
         try:
+            # Log del evento crudo para debug
+            self.log_event(f"🔍 Evento recibido: {json.dumps(event_data, indent=2)[:300]}...")
+            
             # Extraer información del evento
             event_type = event_data.get('eventType', 'Desconocido')
+            date_time = event_data.get('dateTime', datetime.now().isoformat())
             
             if 'AccessControllerEvent' in event_data:
                 acc_event = event_data['AccessControllerEvent']
@@ -706,7 +717,7 @@ class HikvisionUserCreator:
                 employee_no = acc_event.get('employeeNoString', 'N/A')
                 door_no = acc_event.get('doorNo', 'N/A')
                 verify_mode = acc_event.get('currentVerifyMode', 'N/A')
-                event_time = event_data.get('dateTime', datetime.now().isoformat())
+                name = acc_event.get('name', 'N/A')
                 
                 # Determinar tipo de acceso
                 major_type = acc_event.get('majorEventType', 0)
@@ -715,38 +726,164 @@ class HikvisionUserCreator:
                 # Interpretar códigos de evento
                 access_result = self.interpret_event_codes(major_type, minor_type)
                 
-                # Log del evento
-                event_msg = f"🚪 ACCESO: {access_result} | Usuario: {employee_no} | Tarjeta: {card_no} | Puerta: {door_no} | Modo: {verify_mode}"
+                # Log del evento principal
+                event_msg = f"🚪 {access_result}"
+                if employee_no != 'N/A':
+                    event_msg += f" | Usuario: {employee_no}"
+                if name != 'N/A':
+                    event_msg += f" | Nombre: {name}"
+                if card_no != 'N/A':
+                    event_msg += f" | Tarjeta: {card_no}"
+                if door_no != 'N/A':
+                    event_msg += f" | Puerta: {door_no}"
+                
                 self.log_event(event_msg)
                 
-                # Log adicional con detalles
-                self.log_event(f"   📅 Tiempo: {event_time}")
-                if 'name' in acc_event:
-                    self.log_event(f"   👤 Nombre: {acc_event['name']}")
-                    
+                # Información adicional
+                if verify_mode != 'N/A':
+                    self.log_event(f"   🔐 Método: {verify_mode}")
+                self.log_event(f"   📅 Tiempo: {date_time}")
+                self.log_event(f"   🔢 Códigos: Major={major_type}, Minor={minor_type}")
+                
+            elif 'eventType' in event_data:
+                # Otros tipos de eventos
+                self.log_event(f"📨 Evento: {event_type}")
+                self.log_event(f"   📅 Tiempo: {date_time}")
+                
+                # Buscar información adicional
+                for key, value in event_data.items():
+                    if key not in ['eventType', 'dateTime'] and isinstance(value, (str, int, float)):
+                        self.log_event(f"   {key}: {value}")
             else:
-                self.log_event(f"📨 Evento recibido: {event_type}")
+                # Evento desconocido
+                self.log_event(f"❓ Evento desconocido recibido")
+                self.log_event(f"   📅 Tiempo: {date_time}")
                 
         except Exception as e:
             self.log_event(f"❌ Error procesando evento: {e}")
+            # Log del contenido para debug
+            try:
+                content_preview = str(event_data)[:200] if event_data else "Vacío"
+                self.log_event(f"🔍 Contenido: {content_preview}...")
+            except:
+                self.log_event("🔍 Contenido no mostrable")
 
-    def process_multipart_event(self, data):
+    def process_multipart_event(self, data, content_type=""):
         """Procesa eventos con imágenes en formato multipart"""
         try:
-            # Buscar contenido JSON en datos multipart
-            data_str = data.decode('utf-8', errors='ignore')
-            json_start = data_str.find('{')
-            json_end = data_str.rfind('}') + 1
+            # Buscar boundary en content-type
+            boundary = None
+            if 'boundary=' in content_type:
+                boundary = content_type.split('boundary=')[1].split(';')[0]
             
-            if json_start != -1 and json_end > json_start:
-                json_data = data_str[json_start:json_end]
-                event_data = json.loads(json_data)
-                self.process_access_event(event_data)
-            else:
-                self.log_event("📨 Evento multipart recibido (sin JSON parseable)")
+            # Si no hay boundary, buscar patrones comunes
+            if not boundary:
+                # Buscar boundary en los datos
+                data_start = data[:500]  # Primeros 500 bytes
+                for line in data_start.split(b'\r\n'):
+                    if line.startswith(b'--') and len(line) > 10:
+                        boundary = line[2:].decode('ascii', errors='ignore')
+                        break
+            
+            if boundary:
+                # Dividir por boundary
+                parts = data.split(f'--{boundary}'.encode())
+                
+                for part in parts:
+                    if b'application/json' in part:
+                        # Buscar el JSON en esta parte
+                        try:
+                            # Separar headers del content
+                            if b'\r\n\r\n' in part:
+                                headers, content = part.split(b'\r\n\r\n', 1)
+                                
+                                # Limpiar content y buscar JSON
+                                content_str = content.decode('utf-8', errors='ignore')
+                                json_start = content_str.find('{')
+                                json_end = content_str.rfind('}') + 1
+                                
+                                if json_start != -1 and json_end > json_start:
+                                    json_str = content_str[json_start:json_end]
+                                    event_data = json.loads(json_str)
+                                    self.process_access_event(event_data)
+                                    return
+                        except (json.JSONDecodeError, UnicodeDecodeError) as e:
+                            continue
+            
+            # Fallback: buscar JSON en todo el contenido
+            self.extract_json_from_binary(data)
                 
         except Exception as e:
-            self.log_event(f"❌ Error procesando evento multipart: {e}")
+            self.log_event(f"❌ Error procesando multipart: {e}")
+            # Log hexadecimal para debug
+            hex_sample = data[:100].hex() if len(data) >= 100 else data.hex()
+            self.log_event(f"🔍 Muestra hex: {hex_sample[:50]}...")
+
+    def extract_json_from_binary(self, data):
+        """Extrae JSON de datos binarios"""
+        try:
+            # Buscar el inicio de JSON
+            json_patterns = [b'{"', b'{\r\n', b'{\n', b'{ "']
+            
+            start_pos = -1
+            for pattern in json_patterns:
+                pos = data.find(pattern)
+                if pos != -1:
+                    start_pos = pos
+                    break
+            
+            if start_pos == -1:
+                self.log_event("📨 Evento recibido (sin JSON detectable)")
+                return
+            
+            # Extraer desde el inicio del JSON
+            json_data = data[start_pos:]
+            
+            # Buscar el final del JSON (contando llaves)
+            brace_count = 0
+            end_pos = -1
+            in_string = False
+            escape_next = False
+            
+            for i, byte in enumerate(json_data):
+                char = chr(byte) if byte < 128 else '?'
+                
+                if escape_next:
+                    escape_next = False
+                    continue
+                    
+                if char == '\\':
+                    escape_next = True
+                    continue
+                    
+                if char == '"':
+                    in_string = not in_string
+                    continue
+                    
+                if not in_string:
+                    if char == '{':
+                        brace_count += 1
+                    elif char == '}':
+                        brace_count -= 1
+                        if brace_count == 0:
+                            end_pos = i + 1
+                            break
+            
+            if end_pos > 0:
+                json_bytes = json_data[:end_pos]
+                json_str = json_bytes.decode('utf-8', errors='replace')
+                
+                try:
+                    event_data = json.loads(json_str)
+                    self.process_access_event(event_data)
+                except json.JSONDecodeError as e:
+                    self.log_event(f"❌ JSON inválido: {e}")
+                    self.log_event(f"🔍 JSON extraído: {json_str[:200]}...")
+            else:
+                self.log_event("📨 Evento recibido (JSON incompleto)")
+                
+        except Exception as e:
+            self.log_event(f"❌ Error extrayendo JSON: {e}")
 
     def interpret_event_codes(self, major, minor):
         """Interpreta códigos de evento de Hikvision"""
@@ -767,6 +904,147 @@ class HikvisionUserCreator:
         }
         
         return event_codes.get((major, minor), f"EVENTO {major}-{minor}")
+
+    def show_manual_config(self):
+        """Muestra instrucciones de configuración manual"""
+        local_ip = self.get_local_ip()
+        port = self.port_var.get()
+        
+        instructions = f"""
+📋 CONFIGURACIÓN MANUAL PARA DS-K1T344MBFWX-E1:
+
+🌐 1. Abrir navegador: http://{self.ip_var.get()}
+👤 2. Usuario: {self.user_var.get()} / Contraseña: [tu contraseña]
+
+⚙️ 3. BUSCAR EN ESTAS RUTAS (varía según firmware):
+
+📍 OPCIÓN A - Network:
+   Network → Advanced → Event Server
+   O Network → Event Server
+   O Network → Notification → HTTP
+
+📍 OPCIÓN B - Event:
+   Event → Event Server
+   O Event → Notification
+   O Event → HTTP Notification
+
+📍 OPCIÓN C - System:
+   System → Event → HTTP Notification
+   O System → Network → Event Server
+
+📍 OPCIÓN D - Access Control:
+   Access Control → Event
+   O Access Control → Linkage → Event
+
+📡 4. CONFIGURAR CUANDO ENCUENTRES:
+   • Enable/Habilitado: ✅ ON
+   • Server Address/IP: {local_ip}
+   • Port/Puerto: {port}
+   • URL Path: /events (o dejar vacío)
+   • Method/Método: POST
+   • Authentication: None/Ninguna
+
+✅ 5. TIPOS DE EVENTOS A ACTIVAR:
+   • Door Events / Eventos de Puerta
+   • Card Events / Eventos de Tarjeta  
+   • Face Recognition / Reconocimiento Facial
+   • Access Control / Control de Acceso
+   • All Events / Todos los Eventos
+
+💾 6. APLICAR/SAVE configuración
+
+🔧 Si no encuentras la interfaz, usa:
+   • "Test Endpoints" abajo para verificar APIs
+   • Revisa Manual → Help en la interfaz web
+        """
+        
+        # Ventana con instrucciones
+        config_window = tk.Toplevel(self.root)
+        config_window.title("Configuración Manual - DS-K1T344MBFWX-E1")
+        config_window.geometry("700x600")
+        
+        text_widget = scrolledtext.ScrolledText(config_window, wrap=tk.WORD, font=("Courier", 9))
+        text_widget.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        text_widget.insert(tk.END, instructions)
+        text_widget.config(state=tk.DISABLED)
+        
+        # Botones
+        btn_frame = ttk.Frame(config_window)
+        btn_frame.pack(fill=tk.X, padx=10, pady=5)
+        
+        ttk.Button(btn_frame, text="Copiar IP", 
+                  command=lambda: self.copy_to_clipboard(local_ip)).pack(side=tk.LEFT, padx=(0, 5))
+        ttk.Button(btn_frame, text="Abrir Web", 
+                  command=lambda: self.open_device_web()).pack(side=tk.LEFT, padx=(0, 5))
+        ttk.Button(btn_frame, text="Test Endpoints", 
+                  command=self.test_event_endpoints).pack(side=tk.LEFT, padx=(0, 5))
+        ttk.Button(btn_frame, text="Cerrar", 
+                  command=config_window.destroy).pack(side=tk.RIGHT)
+
+    def test_event_endpoints(self):
+        """Prueba diferentes endpoints para encontrar el correcto"""
+        def test():
+            if not self.session:
+                self.session = self.create_session()
+                if not self.session:
+                    return
+                    
+            self.log_message("🔍 Probando endpoints de eventos...")
+            
+            # Lista de endpoints comunes para configuración de eventos
+            endpoints = [
+                "/ISAPI/Event/notification/httpHosts",
+                "/ISAPI/Event/triggers/AccessControllerEvent", 
+                "/ISAPI/System/Event/notification",
+                "/ISAPI/AccessControl/Event/notification",
+                "/ISAPI/Event/notification/httpHosts/capabilities",
+                "/ISAPI/Event/notification",
+                "/ISAPI/System/notification/httpHosts",
+                "/ISAPI/ContentMgmt/Event/notification"
+            ]
+            
+            working_endpoints = []
+            
+            for endpoint in endpoints:
+                try:
+                    url = f"http://{self.ip_var.get()}{endpoint}"
+                    response = self.session.get(url, timeout=5)
+                    
+                    if response.status_code == 200:
+                        self.log_message(f"✅ FUNCIONA: {endpoint}")
+                        working_endpoints.append(endpoint)
+                    elif response.status_code == 404:
+                        self.log_message(f"❌ No existe: {endpoint}")
+                    else:
+                        self.log_message(f"⚠️  Código {response.status_code}: {endpoint}")
+                        
+                except Exception as e:
+                    self.log_message(f"❌ Error en {endpoint}: {e}")
+            
+            if working_endpoints:
+                self.log_message(f"🎯 Endpoints disponibles: {len(working_endpoints)}")
+                self.log_message("💡 Usa 'Configurar Eventos' para configuración automática")
+            else:
+                self.log_message("❌ No se encontraron endpoints de eventos")
+                self.log_message("💡 Configura manualmente en la interfaz web")
+        
+        threading.Thread(target=test, daemon=True).start()
+
+    def copy_to_clipboard(self, text):
+        """Copia texto al portapapeles"""
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
+        self.log_message(f"📋 Copiado: {text}")
+
+    def open_device_web(self):
+        """Abre la interfaz web del dispositivo"""
+        import webbrowser
+        url = f"http://{self.ip_var.get()}"
+        try:
+            webbrowser.open(url)
+            self.log_message(f"🌐 Abriendo: {url}")
+        except Exception as e:
+            self.log_message(f"❌ Error abriendo navegador: {e}")
 
     def on_closing(self):
         """Maneja el cierre de la aplicación"""
