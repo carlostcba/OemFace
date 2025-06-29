@@ -699,74 +699,42 @@ class HikvisionUserCreator:
         except Exception as e:
             self.log_message(f"❌ Error configurando eventos de acceso: {e}")
 
+    
     def process_access_event(self, event_data):
-        """Procesa eventos de acceso recibidos del dispositivo"""
+        """Procesa SOLO eventos de autenticación facial (éxito o fallo)"""
         try:
-            # Log del evento crudo para debug
-            self.log_event(f"🔍 Evento recibido: {json.dumps(event_data, indent=2)[:300]}...")
-            
-            # Extraer información del evento
-            event_type = event_data.get('eventType', 'Desconocido')
+            if 'AccessControllerEvent' not in event_data:
+                return
+
+            acc_event = event_data['AccessControllerEvent']
+            major_type = acc_event.get('majorEventType', 0)
+            minor_type = acc_event.get('subEventType', 0)
+
+            if major_type != 5 or minor_type not in [75, 76]:
+                return
+
             date_time = event_data.get('dateTime', datetime.now().isoformat())
-            
-            if 'AccessControllerEvent' in event_data:
-                acc_event = event_data['AccessControllerEvent']
-                
-                # Información básica del evento
-                card_no = acc_event.get('cardNo', 'N/A')
-                employee_no = acc_event.get('employeeNoString', 'N/A')
-                door_no = acc_event.get('doorNo', 'N/A')
-                verify_mode = acc_event.get('currentVerifyMode', 'N/A')
-                name = acc_event.get('name', 'N/A')
-                
-                # Determinar tipo de acceso
-                major_type = acc_event.get('majorEventType', 0)
-                minor_type = acc_event.get('subEventType', 0)
-                
-                # Interpretar códigos de evento
-                access_result = self.interpret_event_codes(major_type, minor_type)
-                
-                # Log del evento principal
-                event_msg = f"🚪 {access_result}"
-                if employee_no != 'N/A':
-                    event_msg += f" | Usuario: {employee_no}"
-                if name != 'N/A':
-                    event_msg += f" | Nombre: {name}"
-                if card_no != 'N/A':
-                    event_msg += f" | Tarjeta: {card_no}"
-                if door_no != 'N/A':
-                    event_msg += f" | Puerta: {door_no}"
-                
-                self.log_event(event_msg)
-                
-                # Información adicional
-                if verify_mode != 'N/A':
-                    self.log_event(f"   🔐 Método: {verify_mode}")
-                self.log_event(f"   📅 Tiempo: {date_time}")
-                self.log_event(f"   🔢 Códigos: Major={major_type}, Minor={minor_type}")
-                
-            elif 'eventType' in event_data:
-                # Otros tipos de eventos
-                self.log_event(f"📨 Evento: {event_type}")
-                self.log_event(f"   📅 Tiempo: {date_time}")
-                
-                # Buscar información adicional
-                for key, value in event_data.items():
-                    if key not in ['eventType', 'dateTime'] and isinstance(value, (str, int, float)):
-                        self.log_event(f"   {key}: {value}")
+            employee_no = acc_event.get('employeeNoString', '')
+            name = acc_event.get('name', '')
+            verify_mode = acc_event.get('currentVerifyMode', 'N/A')
+
+            # Primera línea del evento
+            if minor_type == 75:
+                main_line = f"🚪 EVENTO 5-75"
+                if employee_no:
+                    main_line += f" | Usuario: {employee_no}"
+                if name:
+                    main_line += f" | Nombre: {name}"
             else:
-                # Evento desconocido
-                self.log_event(f"❓ Evento desconocido recibido")
-                self.log_event(f"   📅 Tiempo: {date_time}")
-                
+                main_line = "🚪 EVENTO 5-76"
+
+            self.log_event(main_line)
+            self.log_event(f"   🔐 Método: {verify_mode}")
+            self.log_event(f"   📅 Tiempo: {date_time}")
+            self.log_event(f"   🔢 Códigos: Major=5, Minor={minor_type}")
+
         except Exception as e:
-            self.log_event(f"❌ Error procesando evento: {e}")
-            # Log del contenido para debug
-            try:
-                content_preview = str(event_data)[:200] if event_data else "Vacío"
-                self.log_event(f"🔍 Contenido: {content_preview}...")
-            except:
-                self.log_event("🔍 Contenido no mostrable")
+            self.log_event(f"❌ Error procesando evento facial: {e}")
 
     def process_multipart_event(self, data, content_type=""):
         """Procesa eventos con imágenes en formato multipart"""
