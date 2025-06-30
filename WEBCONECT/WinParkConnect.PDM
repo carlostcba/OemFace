@@ -1,0 +1,172 @@
+[Root]
+Most Recent Package=WebConect v171024 - OEMSPOT
+
+
+[Package|WebConect v171024 - OEMSPOT|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=d:\PAQUETES\WEBCONNECT
+
+[Package|WebConect v171024 - OEMSPOT|Configure DAO ISAMs]
+Applicable=No
+
+[Package|WebConect v171024 - OEMSPOT|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|WebConect v171024 - OEMSPOT|Files Found]
+
+[Package|WebConect v171024 - OEMSPOT|Files Released]
+Kernel.DLL=
+
+[Package|WebConect v171024 - OEMSPOT|Missing Dependency Information]
+C:\Windows\System32\winhttpcom.dll=
+C:\Windows\System32\wininet.dll=
+C:\Windows\System32\urlmon.dll=
+C:\FUENTES\WEBCONECT 03-10-2024\winhttp.dll=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\crpe32.dll=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\crystl32.ocx=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MCI32.OCX=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MSCOMCT2.OCX=
+
+[Package|WebConect v171024 - OEMSPOT|Out-of-Date Dependency Information]
+C:\Windows\SysWOW64\mscomctl.OCX=
+
+[Package|WebConect v171024 - OEMSPOT|Files Added]
+c:\users\administrador\desktop\fuentes parking 03-10-2024\webconect\webconect 03-10-2024\init.ini=
+C:\FUENTES\WEBCONECT 03-10-2024\logo HD WebConect.jpg=
+C:\FUENTES\WEBCONECT 03-10-2024\OffLine.jpg=
+C:\FUENTES\WEBCONECT 03-10-2024\winhttp.dll=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\ccsdk32.dll=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\crpaig32.dll=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\crpe32.dll=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\crystl32.ocx=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\Fiscal.oca=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\Fiscal.Ocx=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\Fiscal.tlb=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\implode.dll=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MCI32.OCX=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\msado25.tlb=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MSCAL.OCX=
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MSCOMCT2.OCX=
+
+[Package|WebConect v171024 - OEMSPOT|Files Removed]
+c:\users\administrador\desktop\dll_ocx_tlb\crystl32.ocx=
+c:\users\administrador\desktop\dll_ocx_tlb\crpaig32.dll=
+c:\users\administrador\desktop\dll_ocx_tlb\crpe32.dll=
+c:\users\administrador\desktop\dll_ocx_tlb\ccsdk32.dll=
+c:\users\administrador\desktop\dll_ocx_tlb\fiscal.oca=
+c:\users\administrador\desktop\dll_ocx_tlb\fiscal.ocx=
+c:\users\administrador\desktop\dll_ocx_tlb\fiscal.tlb=
+
+[Package|WebConect v171024 - OEMSPOT|Files In Project]
+C:\Windows\System32\msvbvm60.dll=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Windows\System32\VB6ES.DLL=Yes
+C:\Windows\System32\urlmon.dll=Yes
+C:\Windows\System32\wininet.dll=Yes
+C:\Windows\System32\winhttpcom.dll=Yes
+C:\Windows\SysWOW64\MSWINSCK.ocx=Yes
+C:\Windows\SysWOW64\WINSKES.DLL=Yes
+C:\Windows\SysWOW64\mscomctl.OCX=Yes
+C:\Windows\SysWOW64\MSCMCES.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\Windows\System32\VB6STKIT.DLL=Yes
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+C:\Users\Administrador\Desktop\FUENTES PARKING 03-10-2024\WEBCONECT\WEBCONECT 03-10-2024\init.ini=Yes
+C:\FUENTES\WEBCONECT 03-10-2024\WebConect.exe=Yes
+C:\FUENTES\WEBCONECT 03-10-2024\logo HD WebConect.jpg=Yes
+C:\FUENTES\WEBCONECT 03-10-2024\OffLine.jpg=Yes
+C:\FUENTES\WEBCONECT 03-10-2024\winhttp.dll=Yes
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\ccsdk32.dll=No
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\crpaig32.dll=No
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\crpe32.dll=No
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\crystl32.ocx=No
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\Fiscal.oca=No
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\Fiscal.Ocx=No
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\Fiscal.tlb=No
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\implode.dll=Yes
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MCI32.OCX=Yes
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\msado25.tlb=Yes
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MSCAL.OCX=Yes
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MSCOMCT2.OCX=Yes
+
+[Package|WebConect v171024 - OEMSPOT|Configure Registry Files]
+Applicable=No
+
+[Package|WebConect v171024 - OEMSPOT|Configure Remote Servers]
+Applicable=No
+
+[Package|WebConect v171024 - OEMSPOT|Install Locations]
+C:\Users\Administrador\Desktop\FUENTES PARKING 03-10-2024\WEBCONECT\WEBCONECT 03-10-2024\WebConect.exe=$(AppPath)
+C:\Windows\System32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Windows\System32\VB6ES.DLL=$(WinSysPath)
+C:\Windows\System32\urlmon.dll=$(WinSysPath)
+C:\Windows\System32\wininet.dll=$(WinSysPath)
+C:\Windows\System32\winhttpcom.dll=$(WinSysPath)
+C:\Windows\SysWOW64\MSWINSCK.ocx=$(WinSysPath)
+C:\Windows\SysWOW64\WINSKES.DLL=$(WinSysPath)
+C:\Windows\SysWOW64\mscomctl.OCX=$(WinSysPath)
+C:\Windows\SysWOW64\MSCMCES.DLL=$(WinSysPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=$(AppPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\Windows\System32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+C:\Users\Administrador\Desktop\FUENTES PARKING 03-10-2024\WEBCONECT\WEBCONECT 03-10-2024\init.ini=$(AppPath)
+C:\FUENTES\WEBCONECT 03-10-2024\WebConect.exe=$(AppPath)
+C:\FUENTES\WEBCONECT 03-10-2024\logo HD WebConect.jpg=$(AppPath)
+C:\FUENTES\WEBCONECT 03-10-2024\OffLine.jpg=$(AppPath)
+C:\FUENTES\WEBCONECT 03-10-2024\winhttp.dll=$(WinSysPath)
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\implode.dll=$(AppPath)
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MCI32.OCX=$(WinSysPath)
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\msado25.tlb=$(CommonFilesSys)\ADO
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MSCAL.OCX=$(AppPath)
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MSCOMCT2.OCX=$(WinSysPath)
+
+[Package|WebConect v171024 - OEMSPOT|Configure Shared Files]
+Applicable=Yes
+C:\Users\Administrador\Desktop\FUENTES PARKING 03-10-2024\WEBCONECT\WEBCONECT 03-10-2024\WebConect.exe=No
+C:\Program Files (x86)\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MDAC_TYP.EXE=No
+C:\Users\Administrador\Desktop\FUENTES PARKING 03-10-2024\WEBCONECT\WEBCONECT 03-10-2024\init.ini=No
+C:\FUENTES\WEBCONECT 03-10-2024\WebConect.exe=No
+C:\FUENTES\WEBCONECT 03-10-2024\logo HD WebConect.jpg=No
+C:\FUENTES\WEBCONECT 03-10-2024\OffLine.jpg=No
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\implode.dll=No
+C:\Users\Administrador\Desktop\DLL_OCX_TLB\MSCAL.OCX=No
+
+[Package|WebConect v171024 - OEMSPOT|Distribution]
+Type=single
+Size=
+Title=WebConect
+
+[Package|WebConect v171024 - OEMSPOT|IconGroups]
+Group0=Oemspot
+PrivateGroup0=0
+Parent0=$(Programs)
+
+[Package|WebConect v171024 - OEMSPOT|Oemspot]
+Icon1=WebConect.exe
+Title1=WebConect
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|WebConect v171024 - OEMSPOT|Package]
+PackageFolder=d:\PAQUETES\WEBCONNECT
+ProjectFolder=C:\FUENTES\WEBCONECT 03-10-2024
+ServerSideCab=
+File1=d:\PAQUETES\WEBCONNECT\setup.exe
+File2=d:\PAQUETES\WEBCONNECT\Setup.Lst
+File3=d:\PAQUETES\WEBCONNECT\WebConect.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
