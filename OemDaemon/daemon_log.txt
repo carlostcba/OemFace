@@ -1,0 +1,57 @@
+[2025-06-30 17:23:18] 🌐 Servidor de eventos iniciado en puerto 8080
+[2025-06-30 17:23:18] 🔍 Monitor de operaciones CRUD iniciado
+[2025-06-30 17:23:18] 🔧 Icono de bandeja creado
+[2025-06-30 17:23:37] 🚪 EVENTO 5-75 | Usuario: 34247025 | Nombre: Carlos Tello
+[2025-06-30 17:23:37]    🔐 Método: faceOrFpOrCardOrPw
+[2025-06-30 17:23:37]    📅 Tiempo: 2025-06-30T17:23:27-03:00
+[2025-06-30 17:23:37]    🔢 Códigos: Major=5, Minor=75
+[2025-06-30 17:23:37] 📤 Enviando: \x0201F334247025|Carlos Tello|faceOrFpOrCardOrPw|20250630172327\x03
+[2025-06-30 17:23:48] ❌ Error en POST: HTTPConnectionPool(host='192.168.0.100', port=8081): Max retries exceeded with url: /api/events (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000017E7A7201A0>, 'Connection to 192.168.0.100 timed out. (connect timeout=10)'))
+[2025-06-30 17:23:48] ❌ Error enviando comando F3
+[2025-06-30 17:23:48] 🚪 EVENTO 5-75 | Usuario: 34247025 | Nombre: Carlos Tello
+[2025-06-30 17:23:48]    🔐 Método: faceOrFpOrCardOrPw
+[2025-06-30 17:23:48]    📅 Tiempo: 2025-06-30T17:23:27-03:00
+[2025-06-30 17:23:48]    🔢 Códigos: Major=5, Minor=75
+[2025-06-30 17:23:48] 📤 Enviando: \x0201F334247025|Carlos Tello|faceOrFpOrCardOrPw|20250630172327\x03
+[2025-06-30 17:23:58] ❌ Error en POST: HTTPConnectionPool(host='192.168.0.100', port=8081): Max retries exceeded with url: /api/events (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000017E7A710F50>, 'Connection to 192.168.0.100 timed out. (connect timeout=10)'))
+[2025-06-30 17:23:58] ❌ Error enviando comando F3
+[2025-06-30 17:23:58] 🚪 EVENTO 5-75 | Usuario: 34247025 | Nombre: Carlos Tello
+[2025-06-30 17:23:58]    🔐 Método: faceOrFpOrCardOrPw
+[2025-06-30 17:23:58]    📅 Tiempo: 2025-06-30T17:23:27-03:00
+[2025-06-30 17:23:58]    🔢 Códigos: Major=5, Minor=75
+[2025-06-30 17:23:58] 📤 Enviando: \x0201F334247025|Carlos Tello|faceOrFpOrCardOrPw|20250630172327\x03
+[2025-06-30 17:24:08] ❌ Error en POST: HTTPConnectionPool(host='192.168.0.100', port=8081): Max retries exceeded with url: /api/events (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000017E7A711810>, 'Connection to 192.168.0.100 timed out. (connect timeout=10)'))
+[2025-06-30 17:24:08] ❌ Error enviando comando F3
+[2025-06-30 17:24:08] 🚪 EVENTO 5-75 | Usuario: 34247025 | Nombre: Carlos Tello
+[2025-06-30 17:24:08]    🔐 Método: faceOrFpOrCardOrPw
+[2025-06-30 17:24:08]    📅 Tiempo: 2025-06-30T17:23:27-03:00
+[2025-06-30 17:24:08]    🔢 Códigos: Major=5, Minor=75
+[2025-06-30 17:24:08] 📤 Enviando: \x0201F334247025|Carlos Tello|faceOrFpOrCardOrPw|20250630172327\x03
+[2025-06-30 17:24:18] ❌ Error en POST: HTTPConnectionPool(host='192.168.0.100', port=8081): Max retries exceeded with url: /api/events (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000017E7A687950>, 'Connection to 192.168.0.100 timed out. (connect timeout=10)'))
+[2025-06-30 17:24:18] ❌ Error enviando comando F3
+[2025-06-30 17:24:18] 🚪 EVENTO 5-75 | Usuario: 34247025 | Nombre: Carlos Tello
+[2025-06-30 17:24:18]    🔐 Método: faceOrFpOrCardOrPw
+[2025-06-30 17:24:18]    📅 Tiempo: 2025-06-30T17:23:27-03:00
+[2025-06-30 17:24:18]    🔢 Códigos: Major=5, Minor=75
+[2025-06-30 17:24:18] 📤 Enviando: \x0201F334247025|Carlos Tello|faceOrFpOrCardOrPw|20250630172327\x03
+[2025-06-30 17:24:28] ❌ Error en POST: HTTPConnectionPool(host='192.168.0.100', port=8081): Max retries exceeded with url: /api/events (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000017E7A75C180>, 'Connection to 192.168.0.100 timed out. (connect timeout=10)'))
+[2025-06-30 17:24:28] ❌ Error enviando comando F3
+[2025-06-30 17:24:28] 🚪 EVENTO 5-75 | Usuario: 34247025 | Nombre: Carlos Tello
+[2025-06-30 17:24:28]    🔐 Método: faceOrFpOrCardOrPw
+[2025-06-30 17:24:28]    📅 Tiempo: 2025-06-30T17:23:27-03:00
+[2025-06-30 17:24:28]    🔢 Códigos: Major=5, Minor=75
+[2025-06-30 17:24:28] 📤 Enviando: \x0201F334247025|Carlos Tello|faceOrFpOrCardOrPw|20250630172327\x03
+[2025-06-30 17:24:38] ❌ Error en POST: HTTPConnectionPool(host='192.168.0.100', port=8081): Max retries exceeded with url: /api/events (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000017E7A6EA330>, 'Connection to 192.168.0.100 timed out. (connect timeout=10)'))
+[2025-06-30 17:24:38] ❌ Error enviando comando F3
+[2025-06-30 17:24:38] 🚪 EVENTO 5-75 | Usuario: 34247025 | Nombre: Carlos Tello
+[2025-06-30 17:24:38]    🔐 Método: faceOrFpOrCardOrPw
+[2025-06-30 17:24:38]    📅 Tiempo: 2025-06-30T17:23:27-03:00
+[2025-06-30 17:24:38]    🔢 Códigos: Major=5, Minor=75
+[2025-06-30 17:24:38] 📤 Enviando: \x0201F334247025|Carlos Tello|faceOrFpOrCardOrPw|20250630172327\x03
+[2025-06-30 17:24:48] ❌ Error en POST: HTTPConnectionPool(host='192.168.0.100', port=8081): Max retries exceeded with url: /api/events (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000017E7A76C160>, 'Connection to 192.168.0.100 timed out. (connect timeout=10)'))
+[2025-06-30 17:24:48] ❌ Error enviando comando F3
+[2025-06-30 17:24:48] 🚪 EVENTO 5-75 | Usuario: 34247025 | Nombre: Carlos Tello
+[2025-06-30 17:24:48]    🔐 Método: faceOrFpOrCardOrPw
+[2025-06-30 17:24:48]    📅 Tiempo: 2025-06-30T17:23:27-03:00
+[2025-06-30 17:24:48]    🔢 Códigos: Major=5, Minor=75
+[2025-06-30 17:24:48] 📤 Enviando: \x0201F334247025|Carlos Tello|faceOrFpOrCardOrPw|20250630172327\x03
